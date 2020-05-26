@@ -8,6 +8,7 @@ import android.bluetooth.le.ScanResult;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,9 @@ public class BleDevAdapter extends RecyclerView.Adapter<BleDevAdapter.VH> {
         public void onScanResult(int callbackType, ScanResult result) {
             BleDev dev = new BleDev(result.getDevice(), result);
             if (!mDevices.contains(dev)) {
+                if (dev.dev==null){return;}
+                if (TextUtils.isEmpty(dev.dev.getName())){return;}
+//                if (!dev.dev.getName().equals("nubia Z9 max")){return;}//筛选、显示指定设备名
                 mDevices.add(dev);
                 notifyDataSetChanged();
                 Log.i(TAG, "onScanResult: " + result); // result.getScanRecord() 获取BLE广播数据
